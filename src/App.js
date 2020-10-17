@@ -4,6 +4,7 @@ import './App.css';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Image from './Image.js'
+import axiosBase from 'axios'
 
 class App extends React.Component {
   constructor(props, context){
@@ -22,9 +23,30 @@ class App extends React.Component {
         var file = files[0]
         var reader = new FileReader()
         reader.onload = (e) => {
-
-            this.setState({ imageData: e.target.result })
-
+          this.setState({ imageData: e.target.result })
+          const axios = axiosBase.create({
+            baseURL: 'https://gvzm68sipf.execute-api.ap-northeast-1.amazonaws.com/default'
+          })
+          const url = 'compare'
+          const base64EncodedFile = e.target.result.replace(/data:.*\/.*;base64,/, '');
+          const data = {
+            image: base64EncodedFile
+          }
+          console.log(data)
+          axios.post(url, data).then((res)=>{
+            console.log(res)
+            switch (res.data.body.matches){
+              case "kotoge":
+                alert('小峠英二です。')
+                break
+              case "masaoka":
+                alert('正岡子規です。')
+                break
+              default:
+                alert('小峠英二でも正岡子規でもありません。')
+                break
+            }
+          })
         };
         reader.readAsDataURL(file)
 
