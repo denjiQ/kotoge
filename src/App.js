@@ -6,6 +6,9 @@ import Container from '@material-ui/core/Container';
 import Image from './Image.js'
 import Answer from './Answer.js'
 import axiosBase from 'axios'
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import * as colors from "@material-ui/core/colors";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 class App extends React.Component {
   constructor(props, context) {
@@ -74,37 +77,48 @@ class App extends React.Component {
       "margin-top": '10px',
       "margin-bottom": '10px'
     }
+    const theme = createMuiTheme({
+      palette: {
+        primary: {
+          main: colors.blue[800],
+        },
+        type: "dark",
+      },
+    });
     return (
-      <Container style={style} maxWidth="false">
-        <Container style={style} maxWidth="sm">
-          <div>
-            <h1>小峠英二と正岡子規を見分けるアプリ</h1>
-            <p>画像をアップロードすると、<br />写っている人物が小峠英二か正岡子規かを<br />Amazon Rekognitionが判定します。</p>
-          </div>
-        </Container>
-        <Container style={containerImgStyle} maxWidth="sm">
-          <Image src={this.state.imageData}></Image>
-        </Container>
-        <Container style={style} maxWidth="sm">
-          <Answer text={this.state.text}></Answer>
-        </Container>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Container style={style} maxWidth="false">
-          <Button
-            variant="contained"
-            component="label"
-            style={{ justifyContent: 'center' }}
-          >
-            ファイル送信
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              ref={this.fileInput}
-              onChange={this.submit}
-            />
-          </Button>
+          <Container style={style} maxWidth="sm">
+            <div>
+              <h1>小峠英二と正岡子規を見分けるアプリ</h1>
+              <p>画像をアップロードすると、<br />写っている人物が小峠英二か正岡子規かを<br />Amazon Rekognitionが判定します。</p>
+            </div>
+          </Container>
+          <Container style={containerImgStyle} maxWidth="sm">
+            <Image src={this.state.imageData}></Image>
+          </Container>
+          <Container style={style} maxWidth="sm">
+            <Answer text={this.state.text}></Answer>
+          </Container>
+          <Container style={style} maxWidth="false">
+            <Button
+              variant="contained"
+              component="label"
+              style={{ justifyContent: 'center' }}
+            >
+              ファイル送信
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                ref={this.fileInput}
+                onChange={this.submit}
+              />
+            </Button>
+          </Container>
         </Container>
-      </Container>
+      </ThemeProvider>
     );
   }
 }
