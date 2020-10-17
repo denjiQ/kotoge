@@ -11,7 +11,7 @@ class Image extends React.Component {
       width: '100%'
     }
     return (
-      <img style={style} src={this.props.src}></img>
+      <h4>{this.props.text}</h4>
     );
   }
 }
