@@ -32,7 +32,7 @@ class App extends React.Component {
       reader.onload = (e) => {
         this.setState({ imageData: e.target.result })
         const axios = axiosBase.create({
-          baseURL: 'https://gvzm68sipf.execute-api.ap-northeast-1.amazonaws.com/default'
+          baseURL: process.env.REACT_APP_API_URL
         })
         const url = 'compare'
         const base64EncodedFile = e.target.result.replace(/data:.*\/.*;base64,/, '');
