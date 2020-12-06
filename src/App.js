@@ -41,8 +41,8 @@ class App extends React.Component {
         }
         console.log(data)
         const config = {
-          header: {
-            'x-api-key': `key:${process.env.REACT_APP_API_KEY}`
+          headers: {
+            'x-api-key': `${process.env.REACT_APP_API_KEY}`
           }
         }
         // return
