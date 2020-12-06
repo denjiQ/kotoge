@@ -32,7 +32,7 @@ class App extends React.Component {
       reader.onload = (e) => {
         this.setState({ imageData: e.target.result })
         const axios = axiosBase.create({
-          baseURL: 'https://gvzm68sipf.execute-api.ap-northeast-1.amazonaws.com/default'
+          baseURL: process.env.REACT_APP_API_URL
         })
         const url = 'compare'
         const base64EncodedFile = e.target.result.replace(/data:.*\/.*;base64,/, '');
@@ -40,8 +40,13 @@ class App extends React.Component {
           image: base64EncodedFile
         }
         console.log(data)
+        const config = {
+          header: {
+            'x-api-key': `key:${process.env.REACT_APP_API_KEY}`
+          }
+        }
         // return
-        axios.post(url, data).then((res) => {
+        axios.post(url, data, config).then((res) => {
           console.log(res)
           switch (res.data.body.matches) {
             case "kotoge":
@@ -73,9 +78,9 @@ class App extends React.Component {
       textAlign: 'center'
     }
     const containerImgStyle = {
-      "textAlign": 'center',
-      "margin-top": '10px',
-      "margin-bottom": '10px'
+      textAlign: 'center',
+      marginTop: '10px',
+      marginBottom: '10px'
     }
     const theme = createMuiTheme({
       palette: {
@@ -88,7 +93,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container style={style} maxWidth="false">
+        <Container style={style}>
           <Container style={style} maxWidth="sm">
             <div>
               <h1>小峠英二と正岡子規を見分けるアプリ</h1>
@@ -101,7 +106,7 @@ class App extends React.Component {
           <Container style={style} maxWidth="sm">
             <Answer text={this.state.text}></Answer>
           </Container>
-          <Container style={style} maxWidth="false">
+          <Container style={style}>
             <Button
               variant="contained"
               component="label"
